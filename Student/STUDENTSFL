@@ -1,0 +1,92 @@
+ Columns . . . :    6  76            Edit                    JBLTD101/QRPGLESRC 
+ SEU==>                                                              STUDENTSFL 
+ FMT FX FFilename++IPEASF.....L.....A.Device+.Keywords+++++++++++++++++++++++++ 
+        *************** Beginning of data ************************************* 
+0001.00 FPSTUDENT  UF A E           K DISK                                      
+0002.00 FCITYPF    IF   E           K DISK                                      
+0003.00 FSTREETP   IF   E           K DISK                                      
+0004.00 FADDRESSP  IF   E           K DISK                                      
+0005.00 FSTUDENTSFLCF   E             WORKSTN                                   
+0006.00 F                                     SFILE(SFLR:RRN)                   
+0007.00 F                                     SFILE(CITYSFL:RRNC)               
+0008.00 F                                     SFILE(STREETSFL:RRNS)             
+0009.00 F                                     SFILE(ADDRESSSFL:RRNA)            
+0010.00 C*                                                                      
+0011.00 C                   SETON                                        51     
+0012.00 C     *IN03         DOWEQ     *OFF                                      
+0013.00 C                   SETON                                        50     
+0014.00 C                   SETOFF                                       44     
+0015.00 C                   WRITE     TOP                                       
+0016.00 C                   WRITE     BOT                                       
+0017.00 C                   EXSR      FILLSFL                                 
+0018.00 C                   EXFMT     SFLCTL                                  
+0019.00 C                   SETOFF                                       3133 
+0020.00 C     *IN06         IFEQ      *ON                                     
+0021.00 C                   EXSR      NEW                                     
+0022.00 C                   ELSE                                              
+0023.00 C                   EXSR      TIPUL                                   
+0024.00 C                   ENDIF                                             
+0025.00 C                   ENDDO                                             
+0026.00 C                   SETON                                        LR 
+0027.00 C*                                                                      
+0028.00 C     FILLSFL       BEGSR                                               
+0029.00 C                   SETON                                        3234   
+0030.00 C                   WRITE     SFLCTL                                    
+0031.00 C                   SETOFF                                       34     
+0032.00 C                   Z-ADD     0             RRN               4 0       
+0033.00 C     *LOVAL        SETLL     RSTUDENT                           9999   
+0034.00 C                   READ      RSTUDENT                             9999 
+0035.00 C     *IN99         DOWEQ     *OFF                                      
+0036.00 C                   MOVE      *BLANKS       OP                          
+0037.00 C                   ADD       1             RRN                         
+0038.00 C                   WRITE     SFLR                                      
+0039.00 C                   READ      RSTUDENT                             9999 
+0040.00 C                   ENDDO                                               
+0041.00 C     RRN           IFGT      0                                         
+0042.00 C                   SETON                                        3133   
+0043.00 C                   Z-ADD     1             POS         
+0044.00 C                   ENDIF                                               
+0045.00 C                   ENDSR                                     
+0046.00 C*                                                                      
+0047.00 C     TIPUL         BEGSR                                               
+0048.00 C                   READC     SFLR                                 9999 
+0049.00 C     *IN99         DOWEQ     *OFF                                      
+0050.00 C     OP            IFEQ      '2'                                       
+0051.00 C                   EXSR      UPDATE1                                   
+0052.00 C                   ENDIF                                               
+0053.00 C     OP            IFEQ      '4'                                       
+0054.00 C                   EXSR      DELETE1                                   
+0055.00 C                   ENDIF                                               
+0056.00 C     OP            IFEQ      '5'                                       
+0057.00 C                   EXSR      SEND1                                     
+0058.00 C                   ENDIF                                               
+0059.00 C     OP            IFEQ      '8'                                       
+0060.00 C                   EXSR      DISPLAY1                                  
+0061.00 C                   ENDIF                                               
+0062.00 C                   READC     SFLR                                 9999 
+0063.00 C                   ENDDO                                               
+0064.00 C                   ENDSR                                               
+0065.00 C*                                                                      
+0066.00 C     NEW           BEGSR                                               
+0067.00 C                   SETON                                        56     
+0068.00 C                   SETOFF                                       50     
+0069.00 C                   EXSR      REK                                       
+0070.00 C                   WRITE     TOP                                       
+0071.00 C                   WRITE     BOT                                       
+0072.00 C     *IN03         DOWEQ     *OFF                                      
+0073.00 C     *IN12         ANDEQ     *OFF                                      
+0074.00 C     *IN02         ANDEQ     *OFF                                      
+0075.00 C                   EXFMT     ALLF                                      
+0076.00 C   09              EXSR      CITIES                                    
+0077.00 C   10              EXSR      STREETS                                   
+0078.00 C   11              EXSR      ADDRESS                                   
+0079.00 C   02              DO                                                  
+0080.00 C     SID           SETLL     RSTUDENT                               46 
+0081.00 C  N46              WRITE     RSTUDENT                                  
+0082.00 C   46              SETOFF                                       02     
+0083.00 C                   ENDDO                                               
+0084.00 C                   SETOFF                                           46 
+0085.00 C                   ENDDO                                               
+0086.00 C                   SETOFF                                           56 
+0087.00 C                   ENDSR                                               
+0088.00 C*                                                                                                                       
